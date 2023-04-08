@@ -1,17 +1,19 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
 enum TodoStatus {
-  Todo(name: 'Todo'),
-  Under_Instabation(name: 'Under Instabation'),
-  Inprogress(name: 'Inprogress'),
-  Wating_Release(name: 'Wating Release'),
-  Testing(name: 'Testing'),
-  Done(name: 'Done'),
-  Canceled(name: 'Canceled');
+  Todo(name: 'Todo', color: Colors.black26),
+  Under_Instabation(name: 'Under Instabation', color: Colors.black26),
+  Inprogress(name: 'Inprogress', color: Colors.blue),
+  Wating_Release(name: 'Wating Release', color: Colors.yellow),
+  Testing(name: 'Testing', color: Colors.yellow),
+  Done(name: 'Done', color: Colors.lightGreen),
+  Canceled(name: 'Canceled', color: Colors.lightGreen);
 
-  const TodoStatus({ required this.name});
+  const TodoStatus({ required this.name, required this.color });
 
   final String name;
+  final Color color;
 
   factory TodoStatus.toEnum(String val) {
 
