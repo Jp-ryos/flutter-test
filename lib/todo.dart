@@ -6,7 +6,7 @@ import 'package:flutter_application_1/todo_status.dart';
 /// ・Todoのプロパティを持つ
 class Todo {
   /// ID
-  late int id;
+  late String id;
 
   /// タイトル
   late String title;
@@ -51,7 +51,7 @@ class Todo {
 
   /// MapをTodoモデルに変換する(読込時に使用)
   Todo.fromJson(Map json) {
-    id = json['id'];
+    id = json['id'].toString();
     title = json['title'];
     detail = json['detail'];
     isComplete = json['isComplete'];

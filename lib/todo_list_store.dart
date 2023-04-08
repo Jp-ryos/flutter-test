@@ -31,10 +31,12 @@ class TodoListStore {
     return dateTime;
   }
 
-  void add(bool isComplete, String title, String detail) {
-    var id = count() == 0 ? 1 : _list.last.id + 1;
+  void add(bool isComplete, String title, String detail, String status) {
+    var idIndex = count() == 0 ? 1 : count() + 1;
+    var id = _key + idIndex.toString();
     var dateTime = getDateTime();
-    var todo = Todo(id, title, detail, isComplete, dateTime, dateTime, TodoStatus.Todo.name);
+    var todoStatus = status ?? TodoStatus.Todo.name;
+    var todo = Todo(id, title, detail, isComplete, dateTime, dateTime, todoStatus);
     _list.add(todo);
     save();
   }

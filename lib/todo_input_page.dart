@@ -119,7 +119,7 @@ print(todo?.status);
               child: ElevatedButton(
                 onPressed: () {
                   if (_isCreateTodo) {
-                    _store.add(_isComplete, _title, _detail);
+                    _store.add(_isComplete, _title, _detail, _status);
                   } else {
                     _store.update(widget.todo!, _isComplete, _title, _detail, _status);
                     print("update Status $_status");

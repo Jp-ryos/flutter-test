@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/list_view_item.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'todo.dart';
 import 'todo_list_store.dart';
@@ -78,23 +79,16 @@ class _TodoListPageState extends State<TodoListPage> {
                 )
               ],
             ),
-            child: Container(
-              decoration: const BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(color: Colors.grey),
-                ),
+            child: ListViewItem(
+              thumbnail: Container(
+                decoration: const BoxDecoration(color: Colors.pink),
               ),
-              child: ListTile(
-                leading: Text(item.id.toString()),
-                title: Text(item.title),
-                trailing: Checkbox(
-                  value: item.isComplete,
-                  onChanged: (bool? value) {
-                      setState(() => _store.update(item, value!));
-                  },
-                ),
-              ),
-            ),
+              id: item.id,
+              title: item.title,
+              status: item.status,
+              manageUser: "you",
+              createDate: item.createDate,
+            )
           );
         },
       ),
