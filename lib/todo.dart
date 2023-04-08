@@ -1,3 +1,5 @@
+import 'package:flutter_application_1/todo_status.dart';
+
 /// Todoモデルのクラス
 ///
 /// 以下の責務を持つ
@@ -21,6 +23,8 @@ class Todo {
   /// 更新日時
   late String updateDate;
 
+  late String status;
+
   /// コンストラクタ
   Todo(
     this.id,
@@ -29,6 +33,7 @@ class Todo {
     this.isComplete,
     this.createDate,
     this.updateDate,
+    this.status
   );
 
   /// TodoモデルをMapに変換する(保存時に使用)
@@ -39,7 +44,8 @@ class Todo {
       'detail': detail,
       'isComplete': isComplete,
       'createDate': createDate,
-      'updateDate': updateDate
+      'updateDate': updateDate,
+      'status': status
     };
   }
 
@@ -51,5 +57,6 @@ class Todo {
     isComplete = json['isComplete'];
     createDate = json['createDate'];
     updateDate = json['updateDate'];
+    status = json['status'];
   }
 }
