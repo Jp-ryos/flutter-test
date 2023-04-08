@@ -1,3 +1,4 @@
+import 'package:flutter_application_1/todo_status.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert'; 
 import 'package:intl/intl.dart';
@@ -33,22 +34,27 @@ class TodoListStore {
   void add(bool isComplete, String title, String detail) {
     var id = count() == 0 ? 1 : _list.last.id + 1;
     var dateTime = getDateTime();
-    var todo = Todo(id, title, detail, isComplete, dateTime, dateTime);
+    var todo = Todo(id, title, detail, isComplete, dateTime, dateTime, TodoStatus.Todo.name);
     _list.add(todo);
     save();
   }
 
-  void update(Todo todo, bool isComplete, [String? title, String? detail]) {
+  void update(Todo todo, bool isComplete, [String? title, String? detail, String? status]) {
     todo.isComplete = isComplete;
 
     if (title != null) {
       todo.title = title;
-    } else if (detail != null) {
+    } 
+    if (detail != null) {
       todo.detail = detail;
+    } 
+    if (status != null) {
+      todo.status = status;
     }
 
     todo.updateDate = getDateTime();
     save();
+    print("save Status $status");
   }
 
   void delete(Todo todo) { 
@@ -60,11 +66,13 @@ class TodoListStore {
     var prefs = await SharedPreferences.getInstance();
     var saveTargetList = _list.map((a) => json.encode(a.toJson())).toList(); 
     prefs.setStringList(_key, saveTargetList); 
+    print(saveTargetList);
   }
 
   void load() async {
     var prefs = await SharedPreferences.getInstance();
     var loadTargetList = prefs.getStringList(_key) ?? [];
     _list = loadTargetList.map((a) => Todo.fromJson(json.decode(a))).toList();
+    print(loadTargetList);
   }
 }

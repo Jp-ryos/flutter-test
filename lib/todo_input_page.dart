@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/todo_status.dart';
 import 'todo_list_store.dart';
 import 'todo.dart';
 
@@ -13,6 +16,7 @@ class TodoInputPage extends StatefulWidget {
 
 class _TodoInputPageState extends State<TodoInputPage> {
   final TodoListStore _store = TodoListStore();
+  final List<TodoStatus> _list = TodoStatus.values;
   
   late bool _isCreateTodo;
   late String _title;
@@ -20,18 +24,21 @@ class _TodoInputPageState extends State<TodoInputPage> {
   late bool _isComplete;
   late String _createDate;
   late String _updateDate;
+  late String _status;
 
   @override
   void initState() {
     super.initState();
     var todo = widget.todo;
 
+print(todo?.status);
     _title = todo?.title ?? "";
     _detail = todo?.detail ?? "";
     _isComplete = todo?.isComplete ?? false;
     _createDate = todo?.createDate ?? "";
     _updateDate = todo?.updateDate ?? "";
     _isCreateTodo = todo == null;
+    _status = todo?.status ?? TodoStatus.Todo.name;
   }
 
   @override
@@ -44,12 +51,18 @@ class _TodoInputPageState extends State<TodoInputPage> {
         padding: const EdgeInsets.all(30),
         child: Column(
           children: <Widget>[
-            CheckboxListTile(
-              title: const Text('complete'),
-              value: _isComplete, 
-              onChanged: (bool? value) {
+            DropdownButton(
+              items: _list.map<DropdownMenuItem<String>>((TodoStatus val) {
+                  return DropdownMenuItem<String>(
+                    value: val.name,
+                    child: Text(val.name),
+                  );
+              }).toList(),
+              value: _status,
+              onChanged: (String? value) {
                 setState(() {
-                  _isComplete =  value ?? false;                  
+                  _status = value!;
+                  print("set Status $_status");
                 });
               },
             ),
@@ -77,7 +90,7 @@ class _TodoInputPageState extends State<TodoInputPage> {
             ),
 
             const SizedBox(height: 20),
-            const TextField(
+            TextField(
               keyboardType: TextInputType.multiline,
               maxLines: null,
               minLines: 3,
@@ -94,6 +107,10 @@ class _TodoInputPageState extends State<TodoInputPage> {
                   ),
                 ),
               ),
+              controller: TextEditingController(text: _detail),
+              onChanged: (String value) {
+                _detail = value;
+              }
             ),
 
             const SizedBox(height: 20),
@@ -104,7 +121,8 @@ class _TodoInputPageState extends State<TodoInputPage> {
                   if (_isCreateTodo) {
                     _store.add(_isComplete, _title, _detail);
                   } else {
-                    _store.update(widget.todo!, _isComplete, _title, _detail);
+                    _store.update(widget.todo!, _isComplete, _title, _detail, _status);
+                    print("update Status $_status");
                   }
                   Navigator.of(context).pop();
                 },
